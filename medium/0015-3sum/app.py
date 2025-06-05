@@ -4,43 +4,43 @@ from typing import List
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        result: List[List[int]] = [[]]
-        n = 0
-        i = 0
-        k = len(nums) - 1
+        res =  []
+        end = len(nums) - 1
         nums.sort()
 
-        while(k-i > 1):
-            diff = nums[i] + nums[k]
-            diff_is_neg = diff < 0
-            if diff_is_neg:
-                itters = range(i+1, k, 1)
-            else:
-                itters = range(k-1, i, -1)
+        pivot = 0
 
-            for j in itters:
-                sum = diff + nums[j]
-                if diff_is_neg and sum > 0:
-                    break
-                if not diff_is_neg and sum < 0:
-                    break
-                if sum == 0:
-                    if result[n] == [nums[i], nums[j], nums[k]]:
-                        continue;
-                    n += 1
-                    result.append([nums[i], nums[j], nums[k]])
+        for pivot in range(end-1):
+            if pivot > 0 and nums[pivot] == nums[pivot-1]:
+                print("skip: ", pivot)
+                continue
+            p1 = pivot+1
+            p2 = end
+            while (p1<p2):
+                pnum = nums[pivot]
+                twosum = nums[p1] + nums[p2]
 
-            # if i+1 - i < k - k-1:
-            if diff_is_neg:
-                i += 1
-            else:
-                k -= 1
+                if (twosum == -pnum):
+                    res.append([pnum, nums[p1], nums[p2]])
 
-        del result[0]
-        return result
-
+                if twosum > -pnum:
+                    t = nums[p2]
+                    while nums[p2] == t:
+                        p2 -= 1
+                        if p2 <= p1:
+                            break
+                else:
+                    t = nums[p1]
+                    while nums[p1] == t:
+                        p1 += 1
+                        if p2 <= p1:
+                            break
 
 
-nums = [-1,0,1,2,-1,-4]
+        return res
+
+
+
+nums = [0,0, 0]
 solution = Solution()
 print(solution.threeSum(nums))
